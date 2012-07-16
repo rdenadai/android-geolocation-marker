@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="font/font-awesome.css" />
+		<style>
+			html,body,div,dl,dt,dd,pre,code,form,fieldset,legend,th,td{
+				margin:0;
+				padding:0;
+			}
+			html, body{
+				border:0px;
+				width:100%;
+				height:100%;
+				min-height:100%;	
+				text-align:justify;
+				letter-spacing: 0.025em;
+			}
+			a { 
+				text-decoration: none;
+				color:#000;
+			}
+			p { 
+				padding-left: 25px;
+				padding-right: 25px;
+			}
+			.boxing {
+				-webkit-box-shadow:  1px 1px 8px 4px rgba(128, 128, 128, 0.5);
+				box-shadow:  1px 1px 8px 4px rgba(128, 128, 128, 0.5);
+				-webkit-border-radius: 6px;
+				border-radius: 6px;
+			}
+			.header {
+					width:100%;
+					height:40px;
+					padding:0px;
+					margin:0px;
+					background: #606c88;
+					background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(100%,#3f4c6b));
+					background: -webkit-linear-gradient(top, #606c88 0%,#3f4c6b 100%);
+					background: linear-gradient(top, #606c88 0%,#3f4c6b 100%);
+			}
+			.title {
+				font-size:20px;
+				font-weight:bold;
+				color:#f2f2f2;
+				text-shadow: 0px 1px 3px #cccccc;
+				padding:11px;
+			}
+			
+			.fechar {
+				float: right;
+				font-size: 20px;
+				font-weight: bold;
+				line-height: 18px;
+				color: #000000;
+				text-shadow: 0 1px 0 #ffffff;
+				opacity: 0.2;
+				filter: alpha(opacity=20);
+			}
+			
+			.fechar:hover {
+				color: #000000;
+				text-decoration: none;
+				cursor: pointer;
+				opacity: 0.4;
+				filter: alpha(opacity=40);
+			}
+			
+			button.fechar {
+				padding: 0;
+				cursor: pointer;
+				background: transparent;
+				border: 0;
+				-webkit-appearance: none;
+			}
+			
+			.boxing {
+				-webkit-box-shadow:  1px 1px 8px 4px rgba(128, 128, 128, 0.5);
+				box-shadow:  1px 1px 8px 4px rgba(128, 128, 128, 0.5);
+				-webkit-border-radius: 6px;
+				border-radius: 6px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<div class="title">
+				<i class="icon-map-marker"></i>&nbsp;Android Geolocation Marker
+			</div>			
+		</div>
+
+		<div style="width:100%;height:auto;padding:0px;margin0px;">
+			<div class="alert alert-block alert-error hide fade in" data-alert="alert">
+				<a class="fechar" href="#">×</a>
+				<h4 class="alert-heading">Atenção!</h4>
+				Ocorreu um problema ao tentar encontrar sua localização!
+			</div>
+			
+			<div class="alert alert-block alert-info hide fade in" data-alert="alert">
+				<a class="fechar" href="#">×</a>
+				<h4 class="alert-heading">Atenção!</h4>
+				Houve um problema ao realizar a gravação dos dados de sua localização!
+			</div>
+			
+			<div class="alert alert-block alert-success hide fade in" data-alert="alert">
+				<a class="fechar" href="#">×</a>
+				<h4 class="alert-heading">Sucesso!</h4>
+				Sua localização foi salva com sucesso, consulte o arquivo AndroidGeolocationMarker.csv!
+			</div>
+		
+			<p>
+				<ul id="abas" class="nav nav-tabs">
+					<li class="active">
+						<a href="#normal" data-toggle="tab">Normal</a>
+					</li>
+					<li><a href="#especifica" data-toggle="tab">Específica</a></li>
+				</ul>
+				
+				<p>
+					<div class="boxing" style="padding:8px;margin-left:15px;margin-right:15px;">
+						<div id="map_canvas" style="width:100%; height:250px;"></div>
+					</div><br />
+				</p>
+				<p>
+					Latitude:<span id="latitude"></span>
+				</p>
+				<p>
+					Longitude:<span id="longitude"></span>
+				</p>
+				
+				<div id="abasConteudo" class="tab-content">
+					<div id="normal" class="tab-pane fade in active">
+						<p>
+							<div style="width:100%;height:auto;display:inline-block;">
+								<button id="btn-salvar" class="btn btn-inverse"  style="float:right;margin-right:10px;">Salvar</button>
+								<button id="btn-localizar" class="btn btn-inverse"  style="float:right;margin-right:10px;">Localizar</button>
+								<br />
+							</div>
+						</p>
+					</div>
+					<div id="especifica" class="tab-pane fade">
+						<p>
+							<label>Digite um texto:</label>
+							<textarea name="texto" id="texto" style="width:100%;height:150px;"></textarea>
+						</p>
+						<p>
+							<div style="width:100%;height:auto;display:inline-block;">
+								<button id="btn-salvar-texto" class="btn btn-inverse" style="float:right;margin-right:10px;">Salvar</button>
+								<button id="btn-localizar-texto" class="btn btn-inverse" style="float:right;margin-right:10px;">Localizar</button>
+								<br />
+							</div>
+						</p>
+					</div>
+				</div>
+			</p>
+		</div>
+		
+	</body>
+	<script type="text/javascript" charset="utf-8" src="js/cordova-1.9.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/bootstrap-alert.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/bootstrap-tab.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/application.js"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			document.addEventListener("deviceready", function() {
+				google.load("maps", "3.8", {"callback": createMap, other_params: "key=AIzaSyAA201JqaCmRjAL32y__AkI4CPb1ovsEk0&sensor=false"});
+				
+				$('#abas a').click(function (e) {
+					e.preventDefault();
+					$(this).tab('show');
+					clearAll();
+					$("#texto").val("");
+				});
+				
+				$('.alert .fechar').on('click',function(){
+					$(this).parent().hide();
+				});
+				
+				$("#btn-localizar").on("click", function() {
+					clearAll();
+					getNativeGPS();
+					//navigator.geolocation.getCurrentPosition(successPosition, error, { maximumAge: 100, timeout: 12000, enableHighAccuracy: true });
+				});
+				
+				$("#btn-localizar-texto").on("click", function() {
+					clearAll();
+					getNativeGPS();
+					//navigator.geolocation.getCurrentPosition(successPosition, error, { maximumAge: 100, timeout: 12000, enableHighAccuracy: true });
+				});
+				
+				$("#btn-salvar").on("click", function() {
+					doAppendFile();
+				});
+				
+				$("#btn-salvar-texto").on("click", function() {
+					doAppendFile();
+				});
+			}, false);
+		});
+	</script>
+</html>
