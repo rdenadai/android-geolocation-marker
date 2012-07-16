@@ -1,0 +1,4 @@
+This is a small projet using phoneGap to build a geolocation marker. I'm using this projects to mark polygons in another application! This app let's you geolocate yourself and save that to a csv file, to be used later.
+The csv file is called AndroidGeolocationMarker?.csv and is recorded on the root of the sd card!
+Any problem open an issue or download the source and correct the bug yourself!
+P.S.: This program is in portuguese! (Brazil)
