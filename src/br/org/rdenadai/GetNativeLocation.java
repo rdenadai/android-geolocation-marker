@@ -9,6 +9,10 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+/**
+ * This class has been build using the method isBetterLocation and isSameProvider build by Google!
+ * @author rdenadai
+ */
 public class GetNativeLocation implements LocationListener {
     private WebView mAppView;
     private DroidGap mGap;

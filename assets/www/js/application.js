@@ -1,19 +1,19 @@
 var coords = "", map = null, myLatlng = null, markers = [];
 
 var clearMarkers = function() {
-	for(var i=0; i<markers.length; i++){
-        markers[i].setMap(null);
+	for( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap( null );
     }
 };
 
 function clearAll() {
 	clearMarkers();
 	clearCoords();
-	$(".alert").hide();
+	$( ".alert" ).hide();
 };
 
 function createMap() {
-	myLatlng = new google.maps.LatLng(-22.752280, -47.352802);
+	myLatlng = new google.maps.LatLng( -22.752280, -47.352802 );
 	var myOptions = {
 			zoom: 18,
 			center:myLatlng,
@@ -23,69 +23,69 @@ function createMap() {
 			mapTypeId: google.maps.MapTypeId.HYBRID
 		};
 		// Cria o mapa e centraliza em um ponto
-		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		map = new google.maps.Map( document.getElementById( "map_canvas" ), myOptions );
 }
 
 function clearCoords() {
-	$("#latitude").html("");
-	$("#longitude").html("");
+	$( "#latitude" ).html( "" );
+	$( "#longitude" ).html( "" );
 };
 
 function success() {
-	$(".alert-success").show();
+	$( ".alert-success" ).show();
 };
+
 function error(error) {
-	$(".alert-error").show();
+	$( ".alert-error" ).show();
 };
+
 function fail(error) {
-	$(".alert-info").show();
+	$( ".alert-info" ).show();
 };
 
-
-function appendFile(f) {
-	f.createWriter(function(writerOb) {
+function appendFile( f ) {
+	f.createWriter( function( writerOb ) {
 		writerOb.onwrite = function() {
 			success();
 		}
 		//go to the end of the file...
-		writerOb.seek(writerOb.length);
-		writerOb.write($("#texto").val()+';'+coords + "\n");
+		writerOb.seek( writerOb.length );
+		writerOb.write( $( "#texto" ).val() + ';' + coords + "\n" );
 	});
 };
  
-function doAppendFile(e) {
+function doAppendFile( e ) {
 	window.requestFileSystem(
 		LocalFileSystem.PERSISTENT, 0, 
-		function(fileSystem) {
-			fileSystem.root.getFile("AndroidGeolocationMarker.csv", {create: true, exclusive: false}, appendFile, fail);
+		function( fileSystem ) {
+			fileSystem.root.getFile( "AndroidGeolocationMarker.csv", { create: true, exclusive: false }, appendFile, fail );
 		}
 		,fail
 	);
 };
 
-
-function readFile(f) {
+function readFile( f ) {
 	reader = new FileReader();
 	reader.onloadend = function(e) {
 		success();
 	}
-	reader.readAsText(f);
+	reader.readAsText( f );
 };
 
-function doReadFile(e) {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
-		function(fileSystem) {
-			fileSystem.root.getFile("AndroidGeolocationMarker.csv", {create:true}, readFile, onError);
+function doReadFile( e ) {
+	window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, 
+		function( fileSystem ) {
+			fileSystem.root.getFile( "AndroidGeolocationMarker.csv", { create:true }, readFile, onError );
 		}
 		,fail
 	);
 };
 
-function doDeleteFile(e) {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
-		function(fileSystem) {
-			fileSystem.root.getFile("AndroidGeolocationMarker.csv", {create:true}, function(f) {
-				f.remove(function() {
+function doDeleteFile( e ) {
+	window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, 
+		function( fileSystem ) {
+			fileSystem.root.getFile( "AndroidGeolocationMarker.csv", { create:true }, function( f ) {
+				f.remove( function() {
 					success();
 				});
 			}
@@ -95,26 +95,13 @@ function doDeleteFile(e) {
 	);
 };
 
-function successPosition(position) {
-	$("#latitude").html(position.coords.latitude);
-	$("#longitude").html(position.coords.longitude);
-	coords = position.coords.latitude+';'+position.coords.longitude;
-	myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	var marker = new google.maps.Marker({
-		position: myLatlng,
-		map: map
-	});
-	markers.push(marker);
-	map.setCenter(marker.getPosition());
-};
-
-
 function getNativeGPS() {
 	var lat = NativeGPS.getLat(), lng = NativeGPS.getLong();
-	$("#latitude").html(lat);
-	$("#longitude").html(lng);
-	myLatlng = new google.maps.LatLng(lat, lng);
-	var marker = new google.maps.Marker({ position: myLatlng, map: map });
-	markers.push(marker);
-	map.setCenter(marker.getPosition());
+	coords = lat + ';' + lng;
+	$( "#latitude" ).html( lat );
+	$( "#longitude" ).html( lng );
+	myLatlng = new google.maps.LatLng( lat, lng );
+	var marker = new google.maps.Marker( { position: myLatlng, map: map } );
+	markers.push( marker );
+	map.setCenter( marker.getPosition() );
 };
